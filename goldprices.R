@@ -1,4 +1,3 @@
-.libPaths(c("/home/runner/work/_temp/Library", .libPaths()))
 library(netstat)
 #library(dplyr)
 #library(binman)
