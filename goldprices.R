@@ -1,5 +1,5 @@
 library(netstat)
-library(tidyverse)
+library(dplyr)
 library(binman)
 library(wdman)
 library(chromote)
