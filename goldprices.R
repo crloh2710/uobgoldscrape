@@ -1,3 +1,4 @@
+options(chromote.headless = TRUE)
 library(netstat)
 #library(dplyr)
 #library(binman)
