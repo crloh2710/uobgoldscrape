@@ -1,3 +1,4 @@
+.libPaths(.libPaths())
 library(netstat)
 #library(dplyr)
 #library(binman)
