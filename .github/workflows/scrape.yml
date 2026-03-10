@@ -2,8 +2,8 @@ name: Daily Price Scraper
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # runs at 8am SGT
-  workflow_dispatch:       # also lets you trigger it manually
+    - cron: '0 0 * * *' # runs at 8am SGT
+  workflow_dispatch:      
 
 jobs:
   scrape:
