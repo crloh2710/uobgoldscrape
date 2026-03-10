@@ -2,7 +2,7 @@ name: Daily Gold Price Scraper
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # 8am SGT (UTC+8)
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -21,12 +21,20 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
 
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: r-packages-${{ hashFiles('install_packages.R') }}
+          restore-keys: r-packages-
+
       - name: Install R packages
-        run: Rscript install_packages.R 
+        run: Rscript install_packages.R
+
       - name: Run scraper
         env:
           CHROMOTE_CHROME_PATH: /usr/bin/chromium-browser
-        run: Rscript scraper.R
+        run: Rscript goldprices.R
 
       - name: Commit and push updated CSV
         run: |
