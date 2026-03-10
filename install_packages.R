@@ -1,3 +1,3 @@
-install.packages(c('netstat', 'tidyverse', 'rvest', 'remotes'), 
+install.packages(c('netstat', 'rvest', 'remotes'), 
                  repos='https://cloud.r-project.org')
 
