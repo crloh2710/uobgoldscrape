@@ -1,7 +1,7 @@
 library(netstat)
 library(dplyr)
 #library(binman)
-library(wdman)
+#library(wdman)
 library(chromote)
 library(rvest)
 
