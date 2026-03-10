@@ -31,9 +31,6 @@ jobs:
       - name: Install R packages
         run: Rscript install_packages.R
         
-      - name: Install chromote from GitHub
-        run: Rscript -e "remotes::install_github('rstudio/chromote')"
-        
       - name: Run scraper
         env:
           CHROMOTE_CHROME_PATH: /usr/bin/chromium-browser
