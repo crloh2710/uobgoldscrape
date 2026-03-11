@@ -1,4 +1,3 @@
-options(chromote.headless = TRUE)
 library(netstat)
 #library(dplyr)
 #library(binman)
@@ -6,6 +5,7 @@ library(netstat)
 library(chromote)
 library(rvest)
 
+options(chromote.headless = TRUE)
 get_uob_gold = function(wait = 3) {
   
   
