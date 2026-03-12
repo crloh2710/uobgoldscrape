@@ -6,7 +6,7 @@ library(chromote)
 library(rvest)
 
 options(chromote.headless = TRUE)
-get_uob_gold = function(wait = 3) {
+get_uob_gold = function(wait = 10) {
   
   
   b = ChromoteSession$new()
@@ -21,7 +21,15 @@ get_uob_gold = function(wait = 3) {
   
   page = read_html(html_source)
   tables = html_table(page, fill = TRUE)
-  
+
+  #retry if page in chromote did not load in time
+  if (length(tables) == 0 || nrow(tables[[1]]) == 0) {
+    Sys.sleep(10)
+    doc = b$DOM$getDocument()
+    html_source = b$DOM$getOuterHTML(nodeId = doc$root$nodeId)$outerHTML
+    page = read_html(html_source)
+    tables = html_table(page, fill = TRUE)
+    }
   #return first table, change if layout of page changes
   tables[[1]]
 }
