@@ -27,11 +27,15 @@ jobs:
           key: r-packages-${{ hashFiles('pkg_lockfile.lock') }}
           restore-keys: r-packages-
       - name: Install R packages
+        env:
+          PKG_SYSREQS: false
+          PKGDEPENDS_SYSREQS: false
         run: |
           Rscript -e "install.packages('pak', repos='https://cloud.r-project.org')"
-          Rscript -e "pak::pkg_install(c('netstat', 'tidyverse', 'dplyr', 'rvest', 'chromote'), dependencies = NA)"
-          env:
-          PKG_SYSREQS: false
+          Rscript -e "
+            options(pkg.sysreqs = FALSE)
+            pak::pkg_install(c('netstat', 'tidyverse', 'dplyr', 'rvest', 'chromote'))
+          "
       - name: Run scraper
         env:
           CHROMOTE_CHROME_PATH: /usr/bin/google-chrome-stable
