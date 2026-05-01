@@ -41,13 +41,10 @@ jobs:
       - name: Install R packages
         env:
           PKG_SYSREQS: false
-          PKGDEPENDS_SYSREQS: false
+          USE_BUNDLED_LIBUV: 1
         run: |
           Rscript -e "install.packages('pak', repos='https://cloud.r-project.org')"
-          Rscript -e "
-            options(pkg.sysreqs = FALSE)
-            pak::pkg_install(c('netstat', 'tidyverse', 'dplyr', 'rvest', 'chromote'))
-          "
+          Rscript -e "pak::pkg_install(c('netstat', 'tidyverse', 'dplyr', 'rvest', 'chromote'), dependencies = NA)"
       - name: Run scraper
         env:
           CHROMOTE_CHROME_PATH: /usr/bin/google-chrome-stable
