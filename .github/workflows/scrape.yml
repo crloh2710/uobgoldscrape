@@ -1,52 +1,39 @@
 name: Daily Gold Price Scraper
-env:
-    CHROMOTE_CHROME_PATH: /usr/bin/google-chrome-stable
-run: Rscript goldprices.R
-
 on:
   #10am/pm
   schedule:
     - cron: '0 2 * * *' 
     - cron: '0 14 * * *'
   workflow_dispatch:
-
 jobs:
   scrape:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4.2.2
-
       - name: Install system dependencies and Chrome
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
-
           curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb
           sudo apt-get install -y ./chrome.deb
           rm chrome.deb
-
       - name: Set up R
         uses: r-lib/actions/setup-r@v2.11.0
-
       - name: Cache R packages
         uses: actions/cache@v4.2.2
         with:
           path: ${{ env.R_LIBS_USER }}
           key: r-packages-${{ hashFiles('pkg_lockfile.lock') }}
           restore-keys: r-packages-
-
       - name: Install R packages
         run: |
           Rscript -e "install.packages('pak', repos='https://cloud.r-project.org')"
           Rscript -e "pak::pkg_install(c('netstat', 'tidyverse', 'dplyr', 'rvest', 'chromote'))"
-        
       - name: Run scraper
         env:
-          CHROMOTE_CHROME_PATH: /usr/bin/chromium-browser
+          CHROMOTE_CHROME_PATH: /usr/bin/google-chrome-stable
         run: Rscript goldprices.R
-
       - name: Commit and push updated CSV
         run: |
           git config user.name "github-actions"
